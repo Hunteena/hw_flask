@@ -1,0 +1,25 @@
+version: '3.7'
+networks:
+  dev_network:
+services:
+  db:
+    image: postgres:13.4
+    env_file: .env
+    networks:
+      dev_network:
+        aliases:
+          - db_main
+  app:
+    build:
+      context: .
+    env_file: .env
+    environment:
+      - PG_DSN=postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@db_main:5432/$POSTGRES_DB
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./:/app
+    networks:
+      dev_network:
+        aliases:
+          - app
