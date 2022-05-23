@@ -9,6 +9,8 @@ services:
       dev_network:
         aliases:
           - db_main
+    ports:
+      - "5432:5432"
   app:
     build:
       context: .
